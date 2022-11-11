@@ -12,4 +12,9 @@ try {
   die('Connection Failed: ' . $e->getMessage());
 }
 
+function formatearFecha($fecha){
+ return date('g: i a', strtotime($fecha));
+
+}
+
 ?>

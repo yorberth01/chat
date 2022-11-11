@@ -10,18 +10,26 @@ include "db.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>chat</title>
   <link rel="stylesheet" href="estilos.css">
+
+  <script>
+    function ajax() {
+      var red=new XMLHttpRequest();
+      red.onreadystatechange=function () {
+        if(red.readyState==4&&red.status==200){
+          document.getElementById("chat").innerHTML=red.responseText;
+
+        }
+      }
+      red.open('GET', 'chat.php', true);
+      red.send();
+    }
+  </script>
 </head>
-<body>
+<body onload="ajax();">
 
   <div id="contenedor">
     <div id="caja-chat">
-      <div id="chat">
-        <div id="datos-chat">
-          <span class="nombre">Jenny:</span>
-          <span class="mensaje">Hola</span>
-          <span class="hora">10:04 am</span>
-        </div>
-      </div>
+      <div id="chat"></div>
     </div>
 
     <form action="index.php" method="POST">
@@ -29,6 +37,23 @@ include "db.php";
       <textarea name="mensaje" id="" cols="20" rows="5" placeholder="ingresa tu mensaje"></textarea>
       <input type="submit" name="enviar" value="Enviar">
     </form>
+
+    <?php 
+      if (isset($_POST['enviar'])) {
+        $nombre=$_POST['nombre'];
+        $mensaje=$_POST['mensaje'];
+
+          $insertar="INSERT INTO chat(nombre, mensaje) VALUES(:nombre, :mensaje)";
+          $resultado_insert= $conexion->prepare($insertar);
+          $resultado_insert->execute([':nombre' => $nombre, ':mensaje' => $mensaje]);
+
+          if ($resultado_insert) {
+            echo "<embed loop='false' src='deep.mp3' hidden='true' autoplay='true'";
+          }
+
+      }
+    ?>
+
   </div>
   
 </body>
