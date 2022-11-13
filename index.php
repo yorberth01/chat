@@ -23,7 +23,13 @@ include "db.php";
       red.open('GET', 'chat.php', true);
       red.send();
     }
+    //refrescar pagina cada segundo
+    setInterval(() => {
+      ajax();
+    }, 1000);
+
   </script>
+
 </head>
 <body onload="ajax();">
 
